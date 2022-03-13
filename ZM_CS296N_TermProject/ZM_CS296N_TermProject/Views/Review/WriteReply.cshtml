@@ -1,0 +1,21 @@
+﻿@model ZM_CS296N_TermProject.Models.ViewModels.CommentVM
+@{
+    ViewData["Title"] = "WriteReply";
+}
+
+<h1>WriteReply</h1>
+
+
+<form asp-action="WriteReply" method="post" style="background-color:lightgray">
+    <input type="hidden" asp-for="ReviewId" value="@Model.ReviewId" />
+
+    <div>
+        <label asp-for="Message">Message:</label>
+        <textarea asp-for="Message"></textarea>
+        <span asp-validation-for="Message" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary btn-md" style="text-align:center">Submit</button>
+</form>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

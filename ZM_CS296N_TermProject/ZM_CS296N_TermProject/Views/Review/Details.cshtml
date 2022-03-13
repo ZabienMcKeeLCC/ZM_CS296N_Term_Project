@@ -1,0 +1,38 @@
+﻿@model ZM_CS296N_TermProject.Models.DomainModels.Review
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2 class="m-2">@Model.Title</h2>
+Posted
+@Model.ReviewId
+<div class="jumbotron">
+    
+    @for(int i = 0; i < Model.Rating; i++)
+            {
+            <a>⭐</a>
+            }
+    <br /><br /><p>@Model.Message</p>
+    
+    <p>Posted At: @Model.Date</p>
+
+    <a asp-action="WriteReply" asp-route-id="@Model.ReviewId">Reply</a>
+    
+</div>
+@if(Model.GetComments() != null)
+ {
+                <h3>Replies</h3>
+    foreach (ZM_CS296N_TermProject.Models.DomainModels.Comment comment in (List< ZM_CS296N_TermProject.Models.DomainModels.Comment>)Model.GetComments())
+    {
+                <div class="comment">
+                    @comment.Message
+                    @comment.ReviewId
+
+                </div>
+    }
+}
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ReviewId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
