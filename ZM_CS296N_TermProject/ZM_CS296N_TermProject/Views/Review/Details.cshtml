@@ -5,34 +5,47 @@
 }
 
 <h2 class="m-2">@Model.Title</h2>
-Posted
-@Model.ReviewId
+Posted By:
+@Model.User.UserName
 <div class="jumbotron">
-    
-    @for(int i = 0; i < Model.Rating; i++)
-            {
-            <a>⭐</a>
-            }
-    <br /><br /><p>@Model.Message</p>
-    
-    <p>Posted At: @Model.Date</p>
 
-    <a asp-action="WriteReply" asp-route-id="@Model.ReviewId">Reply</a>
-    
-</div>
-@if(Model.GetComments() != null)
- {
-                <h3>Replies</h3>
-    foreach (ZM_CS296N_TermProject.Models.DomainModels.Comment comment in (List< ZM_CS296N_TermProject.Models.DomainModels.Comment>)Model.GetComments())
+    @for (int i = 0; i < Model.Rating; i++)
     {
-                <div class="comment">
-                    @comment.Message
-                    @comment.ReviewId
+        <a>⭐</a>
+    }
+    <br /><br /><p>@Model.Message</p>
 
-                </div>
+    <p class="text-sm-right">Posted At: @Model.Date</p>
+    @if (User.IsInRole("Banned"))
+    {
+        @Html.DisplayText("You're Banned!");
+    }
+    else
+    {
+        <a asp-action="WriteReply" asp-route-id="@Model.ReviewId">Reply</a>
+    }
+    
+
+</div>
+@if (Model.GetComments().Count > 0)
+{
+    <h3>Replies</h3>
+    foreach (ZM_CS296N_TermProject.Models.DomainModels.Comment comment in (List<ZM_CS296N_TermProject.Models.DomainModels.Comment>)Model.GetComments())
+    {
+        <div class="comment">
+            <a asp-controller="Account" asp-action="AccountDetails" asp-route-id="@comment.Commenter.Id"> @comment.Commenter.UserName </a><br />
+            @comment.Message
+            <div class="text-sm-right"> Posted At: @comment.Date</div>
+        </div>
+
+        <br />
     }
 }
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ReviewId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ReviewId">Edit</a><br />
+        <a asp-action="Index">Back to List</a>
+    }
+
 </div>

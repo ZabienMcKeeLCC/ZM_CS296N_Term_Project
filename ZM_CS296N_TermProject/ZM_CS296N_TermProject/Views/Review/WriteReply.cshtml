@@ -7,6 +7,7 @@
 
 
 <form asp-action="WriteReply" method="post" style="background-color:lightgray">
+    <input type="hidden" asp-for="User" value="@Model.User" />
     <input type="hidden" asp-for="ReviewId" value="@Model.ReviewId" />
 
     <div>

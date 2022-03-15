@@ -9,7 +9,7 @@ namespace ZM_CS296N_TermProject.Models.DomainModels
     {
         public int CommentId { get; set; }
         public int ReviewId { get; set; }
-        public AppUser User { get; set; }
+        public AppUser Commenter { get; set; }
         public string Message { get; set; }
         public string Date { get; set; }
 

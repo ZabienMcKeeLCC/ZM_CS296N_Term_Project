@@ -14,7 +14,7 @@ namespace ZM_CS296N_TermProject.Controllers
     public class AccountController : Controller
     {
         private UserManager<AppUser> userManager;
-        private SignInManager<AppUser> signInManager;
+        private SignInManager<AppUser> signInManager; 
 
         public AccountController(UserManager<AppUser> userMngr,
             SignInManager<AppUser> signInMngr)
@@ -33,7 +33,7 @@ namespace ZM_CS296N_TermProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = model.Username, Name = model.Name };
+                var user = new AppUser { UserName = model.Username, Name = model.Name, Bio="" };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -87,6 +87,12 @@ namespace ZM_CS296N_TermProject.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> AccountDetails(string id)
+        {
+            AppUser user = await userManager.FindByIdAsync(id);
+            return View(user);
         }
 
         public ViewResult AccessDenied()

@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
+
 @using Microsoft.AspNetCore.Identity
 @using ZM_CS296N_TermProject.Models.DomainModels;
 
@@ -10,12 +11,21 @@
 <h1>Index</h1>
 
 <p>
-
-        <a asp-action="Create">Create New</a>
-
+    @if (signInManager.IsSignedIn(User))
+    {
+        @if (User.IsInRole("Banned"))
+        {
+            @Html.DisplayText("You're Banned!");
+        }
+                else
+                {
+                    <a asp-action="Create">Create New</a>
+                }
+        
+    }
     else
     {
-        <a asp-controller="Account" asp-action="Register">Create an Account!</a>
+        <a asp-controller="Account" asp-action="Login">Log In</a>
     }
 
 </p>
@@ -52,6 +62,8 @@
                     <a asp-action="Delete" asp-route-id="@item.ReviewId">Delete</a>
                 </td>
             </tr>
+
+
         }
     </tbody>
 </table>

@@ -31,6 +31,10 @@ namespace ZM_CS296N_TermProject.Models.DomainModels
 
         public void AddComment(Comment comment)
         {
+            if(Comments == null)
+            {
+                Comments = new List<Comment>();
+            }
             Comments.Add(comment);
         }
     }

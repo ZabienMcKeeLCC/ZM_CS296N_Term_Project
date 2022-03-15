@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZM_CS296N_TermProject.Models.DataLayer;
 
 namespace ZM_CS296N_TermProject.Migrations
 {
     [DbContext(typeof(GameSiteContext))]
-    partial class GameSiteContextModelSnapshot : ModelSnapshot
+    [Migration("20220313202625_AddedBio")]
+    partial class AddedBio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,9 +231,6 @@ namespace ZM_CS296N_TermProject.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CommenterId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
@@ -241,11 +240,14 @@ namespace ZM_CS296N_TermProject.Migrations
                     b.Property<int>("ReviewId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("CommentId");
 
-                    b.HasIndex("CommenterId");
-
                     b.HasIndex("ReviewId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comment");
                 });
@@ -333,17 +335,17 @@ namespace ZM_CS296N_TermProject.Migrations
 
             modelBuilder.Entity("ZM_CS296N_TermProject.Models.DomainModels.Comment", b =>
                 {
-                    b.HasOne("ZM_CS296N_TermProject.Models.DomainModels.AppUser", "Commenter")
-                        .WithMany()
-                        .HasForeignKey("CommenterId");
-
                     b.HasOne("ZM_CS296N_TermProject.Models.DomainModels.Review", null)
                         .WithMany("Comments")
                         .HasForeignKey("ReviewId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Commenter");
+                    b.HasOne("ZM_CS296N_TermProject.Models.DomainModels.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ZM_CS296N_TermProject.Models.DomainModels.Review", b =>

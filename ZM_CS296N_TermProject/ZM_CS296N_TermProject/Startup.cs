@@ -33,6 +33,8 @@ namespace ZM_CS296N_TermProject
             services.AddDbContext<GameSiteContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GameSiteContext")));
             services.Configure<IdentityOptions>(options => options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
 
+            services.AddTransient<IReviewRepository, ReviewRepository>();
+
             services.AddIdentity<AppUser, IdentityRole>()
             .AddEntityFrameworkStores<GameSiteContext>()
             .AddDefaultTokenProviders();

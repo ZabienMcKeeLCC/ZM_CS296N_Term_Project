@@ -1,0 +1,12 @@
+﻿@model ZM_CS296N_TermProject.Models.DomainModels.AppUser
+@{
+    ViewData["Title"] = "AccountDetails";
+}
+
+<h1>@Model.UserName</h1>
+@if(Model.Bio.Length > 0) { <div class="comment">@Model.Bio</div> }
+<form>
+    <input type="submit" value="Edit Bio" class="btn btn-primary" />
+</form>
+
+

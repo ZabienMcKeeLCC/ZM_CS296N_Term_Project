@@ -1,0 +1,9 @@
+﻿@model ZM_CS296N_TermProject.Models.DomainModels.AppUser
+@{
+    ViewData["Title"] = "EditBio";
+}
+
+<h1>Edit Bio</h1>
+@if(Model.Bio.Length > 0) { <div class="comment">@Model.Bio</div> }
+
+
