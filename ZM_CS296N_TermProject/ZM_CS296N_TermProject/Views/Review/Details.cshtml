@@ -4,9 +4,14 @@
     ViewData["Title"] = "Details";
 }
 
+@using Microsoft.AspNetCore.Identity
+@using ZM_CS296N_TermProject.Models.DomainModels;
+
+@inject SignInManager<AppUser> signInManager
+@inject UserManager<AppUser> userManager
 <h2 class="m-2">@Model.Title</h2>
 Posted By:
-@Model.User.UserName
+<a asp-controller="Account" asp-action="AccountDetails" asp-route-id="@Model.User.Id"> @Model.User.UserName </a>
 <div class="jumbotron">
 
     @for (int i = 0; i < Model.Rating; i++)
@@ -20,11 +25,12 @@ Posted By:
     {
         @Html.DisplayText("You're Banned!");
     }
-    else
+    else if (signInManager.IsSignedIn(User))
     {
-        <a asp-action="WriteReply" asp-route-id="@Model.ReviewId">Reply</a>
+
+        <a asp-action="WriteReply" asp-route-id="@Model.ReviewId"><img src="~\Images\CommentButton.png" alt="Write a reply" /></a>
     }
-    
+
 
 </div>
 @if (Model.GetComments().Count > 0)
@@ -42,10 +48,12 @@ Posted By:
     }
 }
 <div>
-    @if (User.IsInRole("Admin"))
+    @if (signInManager.IsSignedIn(User))
     {
-        <a asp-action="Edit" asp-route-id="@Model.ReviewId">Edit</a><br />
-        <a asp-action="Index">Back to List</a>
+        @if (User.IsInRole("Admin") || userManager.GetUserAsync(User).Result.Id == Model.User.Id)
+        {
+            <a asp-action="Edit" asp-route-id="@Model.ReviewId">Edit</a><br />
+            <a asp-action="Index">Back to List</a>
+        }
     }
-
-</div>
+    </div>

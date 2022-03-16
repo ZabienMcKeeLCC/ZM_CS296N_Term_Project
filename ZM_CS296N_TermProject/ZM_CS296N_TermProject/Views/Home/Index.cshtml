@@ -2,9 +2,20 @@
     ViewData["Title"] = "Home Page";
 }
 
+@using Microsoft.AspNetCore.Identity
+@using ZM_CS296N_TermProject.Models.DomainModels;
+
+@inject SignInManager<AppUser> signInManager
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Gametopia</h1>
+    <br />
 </div>
 
-<a asp-controller="Review" asp-action="Index">Reviews List</a>
+<a asp-controller="Review" asp-action="Index"><img src="~\Images\BrowseReviewButton.png" alt="Browse Reviews" /></a>
+@if (signInManager.IsSignedIn(User)){ 
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-controller="Admin" asp-action="Index"><img src="~\Images\AdminButton.png" alt="Administration Console" /></a>
+    }
+}

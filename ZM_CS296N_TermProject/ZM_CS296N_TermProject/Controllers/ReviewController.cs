@@ -19,13 +19,14 @@ namespace ZM_CS296N_TermProject.Controllers
     {
         
         private IReviewRepository repo;
-        UserManager<AppUser> userManager;
+        
         private string BannedWordsString = "Seinfield, Hello World!";
         private List<string> BannedWords = new List<string>();
         private RoleManager<IdentityRole> roleManager;
-        public ReviewController(IReviewRepository inputRepo, UserManager<AppUser> user, RoleManager<IdentityRole> roleMngr)
+        UserManager<AppUser> userManager;
+        public ReviewController(IReviewRepository inputRepo, UserManager<AppUser> userMngr, RoleManager<IdentityRole> roleMngr)
         {
-            userManager = user;
+            userManager = userMngr;
             repo = inputRepo;
             roleManager = roleMngr;
             BannedWords = BannedWordsString.Split(",").ToList();
@@ -35,6 +36,17 @@ namespace ZM_CS296N_TermProject.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await repo.SelectAllAsync());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(string search = "")
+        {
+            if (!string.IsNullOrEmpty(search))
+            {
+                return View(await repo.SelectWithFilterAsync(search));
+            }
+            
+            return RedirectToAction("Index");
         }
 
         // GET: Review/Details/5
@@ -170,6 +182,7 @@ namespace ZM_CS296N_TermProject.Controllers
             return repo.Exists(id);
         }
 
+        [Authorize]
         public IActionResult WriteReply(int id)
         {
             if (User.IsInRole("Banned"))
@@ -180,6 +193,7 @@ namespace ZM_CS296N_TermProject.Controllers
             return View(commentVM);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> WriteReply(CommentVM commentVM)
         {
