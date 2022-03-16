@@ -12,10 +12,10 @@
     <br />
 </div>
 
-<a asp-controller="Review" asp-action="Index"><img src="~\Images\BrowseReviewButton.png" alt="Browse Reviews" /></a>
+<a asp-controller="Review" asp-action="Index"><img src="\Images\BrowseReviewButton.png" alt="Browse Reviews" class="image-class" /></a>
 @if (signInManager.IsSignedIn(User)){ 
     @if (User.IsInRole("Admin"))
     {
-        <a asp-controller="Admin" asp-action="Index"><img src="~\Images\AdminButton.png" alt="Administration Console" /></a>
+        <a asp-controller="Admin" asp-action="Index"><img src="\Images\AdminButton.png" alt="Administration Console" class="image-class" /></a>
     }
 }
